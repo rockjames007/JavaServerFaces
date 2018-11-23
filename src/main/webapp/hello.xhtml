@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" >
+	<h:head>
+	<title>JBPM Work Flow Leave Application</title>
+	<style>
+    form{
+   position:fixed;
+   top:50%;
+   left:50%;
+   right:50%;
+   width:250px;
+   background-color:purple;
+    }
+</style>
+</h:head>
+
+
+<h:body style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCzcWFcqe68YwKtku-ulmDs3Qy3x5XwYjKUNQ9IBXhy8wDvRnTBg); object-fit: cover;">
+	<h3>Welcome to JBPM Leave Management System</h3>
+	
+	<h:form id="form" action="">
+		<p:inputText value="#{loginBean.lb.userName}"></p:inputText>
+		<br/>
+		<p:inputText type="password" value="#{loginBean.lb.password}"></p:inputText>
+		<br/>
+		<p:commandButton value='submit' action="#{loginBean.addUser}"></p:commandButton>
+	</h:form>
+	
+</h:body>
+</html>
