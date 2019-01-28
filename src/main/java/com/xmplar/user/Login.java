@@ -1,5 +1,8 @@
 package com.xmplar.user;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 public class Login {
 
 	LoginService ls = new LoginService();
@@ -22,10 +25,10 @@ public class Login {
 	}
 
 	public String addUser() {
-		if (ls.loginService(lb.userName, lb.Password)==1)
+		if (ls.loginService(lb.userName, lb.Password)==true)
 		{
-			System.out.println("Successfully Inserted");
-	        return "successs";
+			System.out.println("Login Sucessful");
+	        return "success";
 		}    
 		else
 		{
@@ -33,5 +36,8 @@ public class Login {
 			return "failure";
 		}
 	}
+	public void error() {
+        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error in login", ""));
+    }
 
 }
