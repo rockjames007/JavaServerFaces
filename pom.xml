@@ -29,13 +29,13 @@
 	</repositories>
 
 	<dependencies>
-	    <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
-       <dependency>
-        <groupId>postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>9.1-901-1.jdbc4</version>
-        </dependency>
-	    
+		<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901-1.jdbc4</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -71,19 +71,26 @@
 			<artifactId>kie-api</artifactId>
 			<version>7.0.0.Final</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.19.4</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.jbpm/jbpm-flow -->
 		<dependency>
 			<groupId>org.jbpm</groupId>
 			<artifactId>jbpm-flow</artifactId>
 			<version>7.0.0.Final</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>5.3</version>
+			<version>6.1</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>

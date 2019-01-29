@@ -7,7 +7,7 @@
     version="2.1">
     <managed-bean>
         <managed-bean-name>loginBean</managed-bean-name>
-        <managed-bean-class>com.xmplar.user.Login</managed-bean-class>
+        <managed-bean-class>com.xmplar.user.LoginBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
    <navigation-rule>
@@ -23,4 +23,9 @@
 			<redirect/> 
 		</navigation-case>
 	</navigation-rule>
+	<managed-bean>
+        <managed-bean-name>RestBean</managed-bean-name>
+        <managed-bean-class>com.xmplar.apicall.RestBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>

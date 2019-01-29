@@ -9,10 +9,11 @@ import java.sql.SQLException;
 public class DOA {
 	
 	
-	public  Boolean sqlConnection(String username,String password) {
+	public  String sqlConnection(String username,String password)  {
 		Connection con=null;
-		PreparedStatement pstmt=null;
+		PreparedStatement pstmt=null,pstm1=null;
 		String uname=username,pas=password;
+		
 		ResultSet rs;
 		try {
 			Class.forName("org.postgresql.Driver");			
@@ -32,9 +33,17 @@ public class DOA {
 				pstmt.setString(2, pas);
 				rs=pstmt.executeQuery(); 
 				if(!rs.next())
-				return false;
+				return "false";
 				else
-					return true;
+				{ String role = null;
+					pstm1=con.prepareStatement("select role from role where name=?");
+					pstm1.setString(1, uname);
+					rs=pstm1.executeQuery();
+					while(rs.next()) {
+					role=rs.getString(1);
+					}
+					return role;
+				}
 			}catch(Exception e) {
 				System.out.println("Error in Query");
 			}
@@ -43,6 +52,6 @@ public class DOA {
 			System.out.println("Not Connected");
 		}
 		
-		return false;
+		return "false";
 	}
 }

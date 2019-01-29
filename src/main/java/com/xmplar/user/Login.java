@@ -1,43 +1,26 @@
 package com.xmplar.user;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 public class Login {
-
-	LoginService ls = new LoginService();
-	LoginBean lb = new LoginBean();
-
-	public LoginService getLs() {
-		return ls;
+	String userName;
+	String Password;
+	String roles;
+	public String getRoles() {
+		return roles;
 	}
-
-	public void setLs(LoginService ls) {
-		this.ls = ls;
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
-
-	public LoginBean getLb() {
-		return lb;
+	public String getUserName() {
+		return userName;
 	}
-
-	public void setLb(LoginBean lb) {
-		this.lb = lb;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-
-	public String addUser() {
-		if (ls.loginService(lb.userName, lb.Password)==true)
-		{
-			System.out.println("Login Sucessful");
-	        return "success";
-		}    
-		else
-		{
-			System.out.println("failure");
-			return "failure";
-		}
+	public String getPassword() {
+		return Password;
 	}
-	public void error() {
-        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error in login", ""));
-    }
-
+	public void setPassword(String password) {
+		Password = password;
+	}
+	
 }

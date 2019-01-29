@@ -7,21 +7,35 @@
 	xmlns:p="http://primefaces.org/ui" >
 	<h:head>
 	<title>JBPM FairHearing Workflow</title>
-	
-</h:head>
-
+	<style>	
+	</style>
+	</h:head>
 
 <h:body>
+	<h2>Home</h2>
+	<p:button value="Logout" icon="icon-exit_to_app" style="float:right;"></p:button>
+	<p:row>
+	<p:outputLabel value="Welcome :"/> 
+	<p:outputLabel value="#{loginBean.lb.userName}" style="color:blue"/>
+	</p:row>
+	<br/>
+	<p:row>
+		<p:outputLabel value="Role:" style="color:purple"/>
+		<p:outputLabel value="#{loginBean.lb.roles}" style="color:blue"/>
+	</p:row>
 	
-	<h:form>              
-    <p:growl id="messages" showDetail="true"/>
- 
-    <p:contextMenu>
-        <p:menuitem value="Save" action="#{menuView.save}" update="messages" icon="pi pi-save"/>
-        <p:menuitem value="Update" action="#{menuView.update}" update="messages" icon="pi pi-refresh"/>
-        <p:menuitem value="Delete" action="#{menuView.delete}" ajax="false" icon="pi pi-times"/>
-        <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="pi pi-home"/>
-    </p:contextMenu>
+	<p:spacer height="25px"/>
+	<h:form>        
+    <p:accordionPanel>
+    <p:tab title="Fair Hearing Controller">
+    <h:panelGrid columns="2" cellpadding="10">
+    <p:menu>
+        <p:menuitem value="Start Workflow" icon="pi pi-save" action="#{loginBean.apiCall}"/>
+        <p:menuitem value="WorkFlow Status"  icon="pi pi-refresh"/>
+    </p:menu>
+    </h:panelGrid>
+        </p:tab>
+    </p:accordionPanel>
 </h:form>
 	
 </h:body>
