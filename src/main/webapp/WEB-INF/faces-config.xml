@@ -17,14 +17,9 @@
 			<to-view-id>HomeScreen.xhtml</to-view-id> 
 			<redirect/> 
 		</navigation-case>
-		<navigation-case>
-			<from-outcome>failure</from-outcome>
-			<to-view-id>hello.xhtml</to-view-id> 
-			<redirect/> 
-		</navigation-case>
 	</navigation-rule>
 	<managed-bean>
-        <managed-bean-name>RestBean</managed-bean-name>
+        <managed-bean-name>restBean</managed-bean-name>
         <managed-bean-class>com.xmplar.apicall.RestBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>

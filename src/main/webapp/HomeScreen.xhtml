@@ -4,39 +4,87 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" >
-	<h:head>
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
 	<title>JBPM FairHearing Workflow</title>
-	<style>	
-	</style>
-	</h:head>
+	<style>
+</style>
+</h:head>
 
 <h:body>
 	<h2>Home</h2>
 	<p:button value="Logout" icon="icon-exit_to_app" style="float:right;"></p:button>
 	<p:row>
-	<p:outputLabel value="Welcome :"/> 
-	<p:outputLabel value="#{loginBean.lb.userName}" style="color:blue"/>
+		<p:outputLabel value="Welcome :" />
+		<p:outputLabel value="#{loginBean.lb.userName}" style="color:blue" />
 	</p:row>
-	<br/>
+	<br />
 	<p:row>
-		<p:outputLabel value="Role:" style="color:purple"/>
-		<p:outputLabel value="#{loginBean.lb.roles}" style="color:blue"/>
+		<p:outputLabel value="Role:" style="color:purple" />
+		<p:outputLabel value="#{loginBean.lb.roles}" style="color:blue" />
 	</p:row>
-	
-	<p:spacer height="25px"/>
-	<h:form>        
-    <p:accordionPanel>
-    <p:tab title="Fair Hearing Controller">
-    <h:panelGrid columns="2" cellpadding="10">
-    <p:menu>
-        <p:menuitem value="Start Workflow" icon="pi pi-save" action="#{loginBean.apiCall}"/>
-        <p:menuitem value="WorkFlow Status"  icon="pi pi-refresh"/>
-    </p:menu>
-    </h:panelGrid>
-        </p:tab>
-    </p:accordionPanel>
-</h:form>
-	
+
+	<p:spacer height="25px" />
+	<h:form id="workflowForm">
+		<f:metadata>
+			<f:viewAction action="#{restBean.display}" />
+		</f:metadata>
+		<p:outputPanel id="overallPanel">
+			<p:messages id="messages" showDetail="true" closable="true"
+				autoUpdate="true">
+			</p:messages>
+			<p:accordionPanel>
+				<p:tab title="Fair Hearing Controller">
+					<h:panelGrid columns="2" cellpadding="10">
+						<p:commandButton icon="fa fa-play" value="Start Workflow"
+							actionListener="#{loginBean.apiCall}" action="#{restBean.display}" update="workflowForm:table" />
+						<p:commandButton icon="fa fa-refresh" value="WorkFlow Status"
+							update="workflowForm:overallPanel" />
+					</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
+			<p:dataTable var="activeProcess" id="table"
+				value="#{restBean.activeProcessList}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginator="true" rows="10" rowsPerPageTemplate="5,10,15">
+				<f:facet name="header"> Fair Hearing WorkFlow</f:facet>
+				<p:column headerText="Process Instance Id"
+					sortBy="#{activeProcess.processid}">
+					<h:outputText value="#{activeProcess.processid}" />
+				</p:column>
+				<p:column headerText="Start Date">
+					<h:outputText value="#{activeProcess.startDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Current WorkFLow Task">
+					<h:outputText value="#{activeProcess.nodeName}" />
+				</p:column>
+				<p:column headerText="Action">
+					<p:commandButton id="requestFairHearing" value="Request" update="workflowForm:overallPanel"
+						rendered="#{activeProcess.requestfairhearing}"
+						immediate="true"
+						actionListener="#{restBean.requestfairhearing}"
+						action="#{restBean.display}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton id="rerequestfairhearing" value="Re-Request"
+						rendered="#{activeProcess.rerequestfairhearing}" />
+					<p:commandButton id="approvefairhearingbysupervisor"
+						value="Approve" rendered="#{activeProcess.requestSupervisor}" />
+					<p:commandButton id="requestcommissioner"
+						value="Request Commissioner"
+						rendered="#{activeProcess.requestSupervisor}" />
+					<p:commandButton id="returnfairhearing" value="Return"
+						rendered="#{activeProcess.requestSupervisor}" />
+					<p:commandButton id="approvefairhearingbycommisioner"
+						value="Approve" rendered="#{activeProcess.requestCommissioner}" />
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</h:form>
 </h:body>
 </html>

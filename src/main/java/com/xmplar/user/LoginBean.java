@@ -17,23 +17,24 @@ public class LoginBean {
 	        return "success";
 		}    
 		else
-		{
-			System.out.println("failure");
-			return "failure";
+		{ 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Contact admin."));
+			return null;
 		}
 	}
 	
 	public void apiCall() {
 		String status = ls.start(lb);
 		System.out.println(status);
-		
+		if(status!=null)
+		{
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Workflow Started with process instance id:"+status, ""));
+		}
+		else
+		{
+	     FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error in starting workflow", ""));
+		}
 	}
-	
-	public void error() {
-        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error in login", ""));
-    }
-	
-
 	public LoginService getLs() {
 		return ls;
 	}
