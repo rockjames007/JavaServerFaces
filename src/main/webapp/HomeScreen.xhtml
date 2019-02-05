@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
@@ -12,20 +12,22 @@
 </h:head>
 
 <h:body>
-	<h2>Home</h2>
-	<p:button value="Logout" icon="icon-exit_to_app" style="float:right;"></p:button>
-	<p:row>
-		<p:outputLabel value="Welcome :" />
-		<p:outputLabel value="#{loginBean.lb.userName}" style="color:blue" />
-	</p:row>
-	<br />
-	<p:row>
-		<p:outputLabel value="Role:" style="color:purple" />
-		<p:outputLabel value="#{loginBean.lb.roles}" style="color:blue" />
-	</p:row>
-
-	<p:spacer height="25px" />
 	<h:form id="workflowForm">
+		<h2>Home</h2>
+		<p:commandButton value="Logout" icon="icon-exit_to_app"
+			style="float:right;" action="#{restBean.logout}" />
+		<p:row>
+			<p:outputLabel value="Welcome :" />
+			<p:outputLabel value="#{loginBean.lb.userName}" style="color:blue" />
+		</p:row>
+		<br />
+		<p:row>
+			<p:outputLabel value="Role:" style="color:purple" />
+			<p:outputLabel value="#{loginBean.lb.roles}" style="color:blue" />
+		</p:row>
+
+		<p:spacer height="25px" />
+
 		<f:metadata>
 			<f:viewAction action="#{restBean.display}" />
 		</f:metadata>
@@ -37,9 +39,8 @@
 				<p:tab title="Fair Hearing Controller">
 					<h:panelGrid columns="2" cellpadding="10">
 						<p:commandButton icon="fa fa-play" value="Start Workflow"
-							actionListener="#{loginBean.apiCall}" action="#{restBean.display}" update="workflowForm:table" />
-						<p:commandButton icon="fa fa-refresh" value="WorkFlow Status"
-							update="workflowForm:overallPanel" />
+							actionListener="#{loginBean.apiCall}"
+							action="#{restBean.display}" update="workflowForm:table" />
 					</h:panelGrid>
 				</p:tab>
 			</p:accordionPanel>
@@ -61,27 +62,72 @@
 					<h:outputText value="#{activeProcess.nodeName}" />
 				</p:column>
 				<p:column headerText="Action">
-					<p:commandButton id="requestFairHearing" value="Request" update="workflowForm:overallPanel"
-						rendered="#{activeProcess.requestfairhearing}"
-						immediate="true"
-						actionListener="#{restBean.requestfairhearing}"
-						action="#{restBean.display}">
+					<p:commandButton id="requestFairHearing" value="Request"
+						update="workflowForm:overallPanel"
+						rendered="#{activeProcess.requestfairhearing}" immediate="true"
+						action="#{restBean.requestfairhearing}">
 						<f:setPropertyActionListener value="#{activeProcess.taskid}"
 							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
 						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
 							target="#{restBean.userName}"></f:setPropertyActionListener>
 					</p:commandButton>
 					<p:commandButton id="rerequestfairhearing" value="Re-Request"
-						rendered="#{activeProcess.rerequestfairhearing}" />
+						update="workflowForm:overallPanel"
+						rendered="#{activeProcess.rerequestfairhearing}"
+						action="#{restBean.rerequestfairHearing}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+					</p:commandButton>
 					<p:commandButton id="approvefairhearingbysupervisor"
-						value="Approve" rendered="#{activeProcess.requestSupervisor}" />
+						update="workflowForm:overallPanel" value="Approve"
+						rendered="#{activeProcess.requestSupervisor}" immediate="true"
+						action="#{restBean.requestfairHearingSupervisor}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{activeProcess.processid}"
+							target="#{restBean.selectedProcessId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="end"
+							target="#{restBean.supDecision}"></f:setPropertyActionListener>
+					</p:commandButton>
 					<p:commandButton id="requestcommissioner"
-						value="Request Commissioner"
-						rendered="#{activeProcess.requestSupervisor}" />
+						update="workflowForm:overallPanel" value="Request Commissioner"
+						rendered="#{activeProcess.requestSupervisor}" immediate="true"
+						action="#{restBean.requestfairHearingSupervisor}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{activeProcess.processid}"
+							target="#{restBean.selectedProcessId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="com"
+							target="#{restBean.supDecision}"></f:setPropertyActionListener>
+					</p:commandButton>
 					<p:commandButton id="returnfairhearing" value="Return"
-						rendered="#{activeProcess.requestSupervisor}" />
+						update="workflowForm:overallPanel"
+						rendered="#{activeProcess.requestSupervisor}" immediate="true"
+						action="#{restBean.requestfairHearingSupervisor}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{activeProcess.processid}"
+							target="#{restBean.selectedProcessId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="sup"
+							target="#{restBean.supDecision}"></f:setPropertyActionListener>
+					</p:commandButton>
 					<p:commandButton id="approvefairhearingbycommisioner"
-						value="Approve" rendered="#{activeProcess.requestCommissioner}" />
+						update="workflowForm:overallPanel" value="Approve"
+						rendered="#{activeProcess.requestCommissioner}"
+						action="#{restBean.requestfairHearingCommisioner}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 		</p:outputPanel>

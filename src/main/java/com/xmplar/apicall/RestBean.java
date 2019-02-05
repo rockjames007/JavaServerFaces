@@ -12,6 +12,24 @@ public class RestBean {
 	RestAPIUtil rs=new RestAPIUtil();
 	private List<ActiveProcess> activeProcessList = new ArrayList<ActiveProcess>();
 	private int selectedTaskId;
+	private int selectedProcessId;
+	private String supDecision;
+	public String getSupDecision() {
+		return supDecision;
+	}
+
+	public void setSupDecision(String supDecision) {
+		this.supDecision = supDecision;
+	}
+
+	public int getSelectedProcessId() {
+		return selectedProcessId;
+	}
+
+	public void setSelectedProcessId(int selectedProcessId) {
+		this.selectedProcessId = selectedProcessId;
+	}
+
 	private String userName;
 	
 
@@ -55,8 +73,58 @@ public class RestBean {
 		{
 	     FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error in requesting fairhearing", ""));
 		}
+		display();
 
 	}
+	
+	public void requestfairHearingSupervisor()
+	{
+        String status=rs.reviewfairHearingSupervisor(selectedTaskId,selectedProcessId,supDecision,userName);
+		
+		if(status!=null)
+		{
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Fairhearing is requested by Supervisor:"+status, ""));
+		}
+		else
+		{
+	     FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error in requesting fairhearing", ""));
+		}  
+		display();
+	}
+	
+	public void requestfairHearingCommisioner()
+	{
+        String status=rs.reviewfairHearingCommisioner(selectedTaskId,userName);
+		
+		if(status!=null)
+		{
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Fairhearing is approved by Commissioner:"+status, ""));
+		}
+		else
+		{
+	     FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error in approving fairhearing", ""));
+		}  
+		display();
+	}
+	
+	public void rerequestfairHearing()
+	{
+        String status=rs.rerequestFairhearing(selectedTaskId,userName);
+		
+		if(status!=null)
+		{
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Fairhearing is Re-requested:"+status, ""));
+		}
+		else
+		{
+	     FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error in re-requesting fairhearing", ""));
+		}  
+		display();
+	}
+    public String logout()
+    {
+    	return "logout";
+    }
 	public List<ActiveProcess> getActiveProcessList()
 	{
 		return activeProcessList;

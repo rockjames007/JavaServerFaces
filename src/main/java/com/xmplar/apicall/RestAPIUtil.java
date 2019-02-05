@@ -23,7 +23,7 @@ public class RestAPIUtil {
 	/* Starts the fairhearing workflow and return process instance id */
 	public String startProcess(String StartedBy) {
 
-		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.5/processes/DCF.fairHearingWorkflow/instances";
+		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.7/processes/DCF.fairHearingWorkflow/instances";
 		System.out.println("Base64 encoded auth string:" + authStringEnc);
 		Client restClient = Client.create();
 		String input = "{\"startedBy\":\"" + StartedBy + "\"}";
@@ -37,12 +37,13 @@ public class RestAPIUtil {
 		System.out.println("response: " + output);
 		return output;
 	}
-
+    
+	/* Request fairhearing by given user using given task id */
 	public String requestfairHearing(int tid, String CompletedBy) {
-		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.5/tasks/"+tid+"/states/completed?auto-progress=true";
+		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.7/tasks/"+tid+"/states/completed?auto-progress=true";
 		System.out.println("Base64 encoded auth string:" + authStringEnc);
 		Client restClient = Client.create();
-		String input = "{\"age\":25,\"person\":{\"Person\":{\"name\":\"wbadmin\"}}}";
+		String input = "{\"requestfh\":\""+CompletedBy+"\"}";
 		WebResource webResource = restClient.resource(url);
 		ClientResponse resp = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc).put(ClientResponse.class, input);
 		if (resp.getStatus() != 200) {
@@ -53,10 +54,81 @@ public class RestAPIUtil {
 		return output;
 
 	}
+	
+	/* Review fairhearing by Supervisor using given task id */
+	public String reviewfairHearingSupervisor(int tid,int pid,String value,String CompletedBy) {
+		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.7/tasks/"+tid+"/states/completed?auto-progress=true";
+		System.out.println("Base64 encoded auth string:" + authStringEnc);
+		Client restClient = Client.create();
+		String input = "{\"reviewsp\":\""+CompletedBy+"\"}";
+		String res=setProcessVariable(pid,"approvesup",value);
+		System.out.println(res);
+		WebResource webResource = restClient.resource(url);
+		ClientResponse resp = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc).put(ClientResponse.class, input);
+		if (resp.getStatus() != 200) {
+			System.err.println("Unable to connect to the server");
+		}
+		String output = resp.getEntity(String.class);
+		System.out.println("response: " + output);
+		return output;
 
+	}
+	
+	/* Review fairhearing by Supervisor using given task id */
+	public String reviewfairHearingCommisioner(int tid,String CompletedBy) {
+		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.7/tasks/"+tid+"/states/completed?auto-progress=true";
+		System.out.println("Base64 encoded auth string:" + authStringEnc);
+		Client restClient = Client.create();
+		String input = "{\"reviewcm\":\""+CompletedBy+"\"}";
+		WebResource webResource = restClient.resource(url);
+		ClientResponse resp = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc).put(ClientResponse.class, input);
+		if (resp.getStatus() != 200) {
+			System.err.println("Unable to connect to the server");
+		}
+		String output = resp.getEntity(String.class);
+		System.out.println("response: " + output);
+		return output;
+
+	}
+	
+	/* Review fairhearing by Supervisor using given task id */
+	public String rerequestFairhearing(int tid,String CompletedBy) {
+		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.7/tasks/"+tid+"/states/completed?auto-progress=true";
+		System.out.println("Base64 encoded auth string:" + authStringEnc);
+		Client restClient = Client.create();
+		String input = "{\"requestfh\":\""+CompletedBy+"\"}";
+		WebResource webResource = restClient.resource(url);
+		ClientResponse resp = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc).put(ClientResponse.class, input);
+		if (resp.getStatus() != 200) {
+			System.err.println("Unable to connect to the server");
+		}
+		String output = resp.getEntity(String.class);
+		System.out.println("response: " + output);
+		return output;
+
+	}
+	/*Set fairhearing by Supervisor using given task id */
+	public String setProcessVariable(int pid,String pr, String value) {
+		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.7/processes/instances/"+pid+"/variables";
+		System.out.println("Base64 encoded auth string:" + authStringEnc);
+		Client restClient = Client.create();
+		String input = "{\""+pr+"\":\""+value+"\"}";
+		WebResource webResource = restClient.resource(url);
+		ClientResponse resp = webResource.type("application/json").header("Authorization", "Basic " + authStringEnc).post(ClientResponse.class, input);
+		if (resp.getStatus() != 200) {
+			System.err.println("Unable to connect to the server");
+		}
+		String output = resp.getEntity(String.class);
+		System.out.println("response: " + output);
+		return output;
+
+	}
+
+    
+	/* Retrives the list of process instances id and associated task summary */
 	public List<ActiveProcess> activeProcess() {
 		List<ActiveProcess> list = new ArrayList<ActiveProcess>();
-		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.5/processes/instances?page="
+		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.7/processes/instances?page="
 				+ 0 + "&pageSize=" + 50 + "&sortOrder=true";
 		Client restClient = Client.create();
 		WebResource webResource = restClient.resource(url);
@@ -98,7 +170,7 @@ public class RestAPIUtil {
 	/* Returns list of work item instances of given process instance id */
 	public ArrayList<String> workItem(int pid) {
 		ArrayList<String> list = new ArrayList<String>();
-		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.5/processes/instances/"
+		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.7/processes/instances/"
 				+ pid + "/workitems";
 		Client restClient = Client.create();
 		WebResource webResource = restClient.resource(url);
