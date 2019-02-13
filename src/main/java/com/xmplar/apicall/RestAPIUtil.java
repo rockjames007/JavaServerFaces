@@ -11,6 +11,9 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
@@ -127,6 +130,11 @@ public class RestAPIUtil {
     
 	/* Retrives the list of process instances id and associated task summary */
 	public List<ActiveProcess> activeProcess() {
+		HttpSession session;
+		FacesContext context = FacesContext.getCurrentInstance();
+		session = (HttpSession) context.getExternalContext().getSession(true);
+	    String role = (String)session.getAttribute("role");
+	    System.out.println(role);
 		List<ActiveProcess> list = new ArrayList<ActiveProcess>();
 		String url = "http://localhost:8080/kie-server/services/rest/server/containers/DCF_1.0.7/processes/instances?page="
 				+ 0 + "&pageSize=" + 50 + "&sortOrder=true";
@@ -157,8 +165,8 @@ public class RestAPIUtil {
 				actPrs.setTaskStatus(arr1.get(1));
 				actPrs.setRequestfairhearing(requestfh(arr1.get(1), arr.get(0)));
 				actPrs.setRerequestfairhearing(rerequestfh(arr1.get(1), arr.get(0)));
-				actPrs.setRequestSupervisor(requestsp(arr1.get(1), arr.get(0)));
-				actPrs.setRequestCommissioner(requestcm(arr1.get(1), arr.get(0)));
+				actPrs.setRequestSupervisor(requestsp(arr1.get(1), arr.get(0),role));
+				actPrs.setRequestCommissioner(requestcm(arr1.get(1), arr.get(0),role));
 				actPrs.setStartDate(formatter.format(calendar.getTime()));
 				list.add(actPrs);
 
@@ -249,9 +257,9 @@ public class RestAPIUtil {
 	 * Returns boolean value to check if task status is active for requesting
 	 * fairhearing by supervisor
 	 */
-	public boolean requestsp(String ts, String tn) {
+	public boolean requestsp(String ts, String tn,String role) {
 		if (ts.equals("Ready")) {
-			if (tn.equals("requestFairHearingBySupervisor"))
+			if (tn.equals("requestFairHearingBySupervisor")&&(role.equals("fhcommissioner")||(role.equals("fhsupervisor"))))
 				return true;
 			else
 				return false;
@@ -264,9 +272,9 @@ public class RestAPIUtil {
 	 * Returns boolean value to check if task status is active for requesting
 	 * fairhearing by supervisor
 	 */
-	public boolean requestcm(String ts, String tn) {
+	public boolean requestcm(String ts, String tn,String role) {
 		if (ts.equals("Ready")) {
-			if (tn.equals("requestFairHearingByCommissioner"))
+			if (tn.equals("requestFairHearingByCommissioner")&&(role.equals("fhcommissioner")))
 				return true;
 			else
 				return false;

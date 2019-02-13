@@ -14,6 +14,8 @@ public class RestBean {
 	private int selectedTaskId;
 	private int selectedProcessId;
 	private String supDecision;
+	private String userName;
+	
 	public String getSupDecision() {
 		return supDecision;
 	}
@@ -29,9 +31,6 @@ public class RestBean {
 	public void setSelectedProcessId(int selectedProcessId) {
 		this.selectedProcessId = selectedProcessId;
 	}
-
-	private String userName;
-	
 
 	public void display() {
 		RestAPIUtil util = new RestAPIUtil();

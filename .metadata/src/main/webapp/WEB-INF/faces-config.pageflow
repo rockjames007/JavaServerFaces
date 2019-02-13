@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15429686066331" configfile="/JavaServerFaces/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" id="pf15486814643260" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15486814643261" path="*"/>
-  <nodes xsi:type="pageflow:PFPage" name="HomeScreen.xhtml" id="pf15486814643262" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15486814643261" path="HomeScreen.xhtml"/>
-  <links id="pf15486814643261" target="pf15486814643262" source="pf15486814643260" outcome="success" redirect="true"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="370" id="pf15486814643260" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15494367698400 pf15495237239320" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" id="pf15494367698411" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf15494367698400" path="index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="home.xhtml" id="pf15495237239321" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15495237239320" path="home.xhtml"/>
+  <links id="pf15494367698400" target="pf15494367698411" source="pf15486814643260" outcome="logout" redirect="true"/>
+  <links id="pf15495237239320" target="pf15495237239321" source="pf15486814643260" outcome="success" redirect="true"/>
 </pageflow:Pageflow>

@@ -6,15 +6,34 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>JBPM FairHearing Workflow</title>
-	<style>
-</style>
+	<title>JBPM FairHearing Workflow Controller</title>
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/bootstrap/css/bootstrap.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/animate/animate.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/css-hamburgers/hamburgers.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/select2/select2.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css" />
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
 </h:head>
 
 <h:body>
+  <div class="container-login100">
 	<h:form id="workflowForm">
 		<h2>Home</h2>
-		<p:commandButton value="Logout" icon="icon-exit_to_app"
+		<p:commandButton value="Logout" icon="fa fa-sign-out"
 			style="float:right;" action="#{restBean.logout}" />
 		<p:row>
 			<p:outputLabel value="Welcome :" />
@@ -132,5 +151,6 @@
 			</p:dataTable>
 		</p:outputPanel>
 	</h:form>
+	</div>
 </h:body>
 </html>

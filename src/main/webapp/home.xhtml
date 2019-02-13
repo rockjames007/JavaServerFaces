@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <title>Fair Hearing Controller</title>
+   	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/bootstrap/css/bootstrap.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/animate/animate.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/css-hamburgers/hamburgers.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/select2/select2.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css" />
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"/>
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet" />
+  <style>
+ .wrap{
+    background: #ddd;
+    height: 50px;
+    position: relative;
+}
+.circle{
+    background: red;
+    border-radius: 50px;
+    height: 50px;
+    position: absolute;
+    width: 50px;
+    margin: auto;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+}
+.circle:before{
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 20px;
+    border-color: transparent transparent transparent #ffffff;
+    position: absolute;
+    top:0;
+    left:0;
+    right:-5px;
+    bottom:0;
+    margin: auto;
+}
+.logout {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    width:100%;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+
+  </style>
+</h:head>
+
+<h:body>
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+           <h1 style="float:left">FairHearing Controller</h1>
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+            
+            </li>
+            <!-- Nav Item - User Information -->
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+             <h:form>
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                <p:outputLabel value="#{loginBean.lb.userName}" style="color:blue" />
+                </span>
+                <img class="img-profile rounded-circle" src="https://static.thenounproject.com/png/17241-200.png"/>
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+                <p:commandButton action="#{restBean.logout}" icon="ui-icon  ui-icon-circle-arrow-e" styleClass="logout" value="logout" >
+                </p:commandButton>
+              </div>
+              </h:form>
+            </li>
+          </ul>
+        </nav>
+        <!-- End of Topbar -->
+         
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+         <h:form id="workflowForm">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+              <div class="h5 mb-0 font-weight-bold text-gray-800">You are working as
+                 <p:outputLabel value="#{loginBean.lb.roles}" style="font-weight:bold" />
+             </div>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="h5 mb-0 font-weight-bold text-primary text-uppercase mb-1">Start Workflow</div>
+                    </div>
+                    <div class="col-auto">
+                    <div class="wrap">
+                      <p:commandButton value=""
+							actionListener="#{loginBean.apiCall}"
+							styleClass="circle"
+							action="#{restBean.display}" 
+							update="workflowForm:table" />
+					</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+            <f:metadata>
+			<f:viewAction action="#{restBean.display}" />
+		</f:metadata>
+		<p:outputPanel id="overallPanel">
+			<p:messages id="messages" showDetail="true" closable="true"
+				autoUpdate="true">
+			</p:messages>
+			  <p:dataTable var="activeProcess" id="table"
+				value="#{restBean.activeProcessList}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginator="true" rows="10" rowsPerPageTemplate="5,10,15">
+				<f:facet name="header"> Fair Hearing WorkFlow</f:facet>
+				<p:column headerText="Process Instance Id"
+					sortBy="#{activeProcess.processid}">
+					<h:outputText value="#{activeProcess.processid}" />
+				</p:column>
+				<p:column headerText="Start Date">
+					<h:outputText value="#{activeProcess.startDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Current WorkFLow Task">
+					<h:outputText value="#{activeProcess.nodeName}" />
+				</p:column>
+				<p:column headerText="Action">
+					<p:commandButton id="requestFairHearing" value="Request"
+						update="workflowForm:overallPanel"
+						rendered="#{activeProcess.requestfairhearing}" immediate="true"
+						action="#{restBean.requestfairhearing}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton id="rerequestfairhearing" value="Re-Request"
+						update="workflowForm:overallPanel"
+						rendered="#{activeProcess.rerequestfairhearing}"
+						action="#{restBean.rerequestfairHearing}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton id="approvefairhearingbysupervisor"
+						update="workflowForm:overallPanel" value="Approve"
+						rendered="#{activeProcess.requestSupervisor}" immediate="true"
+						action="#{restBean.requestfairHearingSupervisor}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{activeProcess.processid}"
+							target="#{restBean.selectedProcessId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="end"
+							target="#{restBean.supDecision}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton id="requestcommissioner"
+						update="workflowForm:overallPanel" value="Request Commissioner"
+						rendered="#{activeProcess.requestSupervisor}" immediate="true"
+						action="#{restBean.requestfairHearingSupervisor}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{activeProcess.processid}"
+							target="#{restBean.selectedProcessId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="com"
+							target="#{restBean.supDecision}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton id="returnfairhearing" value="Return"
+						update="workflowForm:overallPanel"
+						rendered="#{activeProcess.requestSupervisor}" immediate="true"
+						action="#{restBean.requestfairHearingSupervisor}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{activeProcess.processid}"
+							target="#{restBean.selectedProcessId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="sup"
+							target="#{restBean.supDecision}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton id="approvefairhearingbycommisioner"
+						update="workflowForm:overallPanel" value="Approve"
+						rendered="#{activeProcess.requestCommissioner}"
+						action="#{restBean.requestfairHearingCommisioner}">
+						<f:setPropertyActionListener value="#{activeProcess.taskid}"
+							target="#{restBean.selectedTaskId}"></f:setPropertyActionListener>
+						<f:setPropertyActionListener value="#{loginBean.lb.userName}"
+							target="#{restBean.userName}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+          
+          </h:form>
+        </div>
+        </div>
+      <!-- End of Main Content -->
+    </div>
+   
+    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+</h:body>
+</html>
